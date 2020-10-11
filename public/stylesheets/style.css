@@ -1,0 +1,69 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.select_bord{
+  width: 1000px;
+  height: 500px;
+  background: rgba(212, 255, 0, 0.571);
+}
+
+.result_bord{
+  width: 1000px;
+  height: 500px;
+  background: rgb(0, 251, 255);
+}
+
+/* .card{
+  display: inline-block;
+  margin       : auto;
+  width        : 70px;
+  height       : 80px;
+  background   : linear-gradient(to bottom, #99ccff, #0059b3);
+} */
+
+.card {
+  /* margin: 5px; */
+  width: 60px;
+  height: 80px;
+  line-height: 80px;
+  border: 1px solid silver;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  box-shadow: gray 2px 2px;
+  background: white;
+  float: left;
+  cursor: pointer;
+}
+/* 裏の状態 */
+.back {
+  /* background-image: url('../images/yu-gi-o.jpg'); */
+  background-color: #000000;
+  background-size: 60px 80px;
+}
+
+img{
+  width: 80px;
+  height: 150px;
+}
+
+.frame {
+  margin: 5px;
+  padding: 5px;
+  /* このフレーム自体を横並びに */
+  float: left;
+  /* フレームの中の要素を中央揃えに */
+  align-items: center;
+  /* align-items: flex-end; */
+  /* flexなんちゃらを使えるように */
+  display: flex;
+  /* フレームの中の要素を縦並びに */
+  flex-direction: column;
+}

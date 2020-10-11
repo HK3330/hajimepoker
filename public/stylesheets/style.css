@@ -67,3 +67,8 @@ img{
   /* フレームの中の要素を縦並びに */
   flex-direction: column;
 }
+
+.select {
+  margin: 5px;
+  /* padding: 5px; */
+}

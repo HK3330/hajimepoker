@@ -2,7 +2,7 @@ body {
   /* padding: 50px; */
   font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: black;
-  /* color: 文字色; */
+  color: white;
 }
 
 #title {
@@ -33,12 +33,13 @@ body {
 } */
 
 button {
-  background-color: #ABE34E;
-  /* color: white; */
-  color: black;
+  /* background-color: #ABE34E;
+  color: black; */
   font-size: 14px;
   max-width: 150px;
   margin: 10px auto;
+  color: #ABE34E;
+  background-color: black;
 }
 
 button:hover {
@@ -46,12 +47,15 @@ button:hover {
 }
 
 .result {
-  color: black;
-  background-color: #ABE34E;
+  /* color: black;
+  background-color: #ABE34E; */
+  color: #ABE34E;
+  background-color: black;
 }
 
 .card_name {
-  color: #ABE34E;
+  /* color: #ABE34E; */
+  color: white;
   font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -62,14 +66,20 @@ a {
 .select_bord{
   display: inline-block;
   /* width: 1000px; */
-  height: 500px;
   /* background: rgba(212, 255, 0, 0.571); */
+  /* border: solid; */
+  /* border-color: #CFCFD2; */
+  /* border-color: #ABE34E; */
+
 }
 
 .result_bord{
   display: inline-block;
   border: solid;
-  border-color: #CFCFD2;
+  /* border-color: #CFCFD2; */
+  border: 0.1px solid;
+  border-radius: 8px;
+  border-color: #ABE34E;
   /* width: 1000px; */
   /* height: 500px; */
   /* background: rgb(0, 251, 255); */
@@ -162,5 +172,5 @@ img{
 }
 
 .info {
-  color: #ABE34E;
+  /* color: #ABE34E; */
 }

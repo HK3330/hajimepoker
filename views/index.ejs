@@ -6,14 +6,24 @@
     <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>Hajime Poker</h1>
-    <p>Welcome to Hajime Poker </p>
-    <div class='result_bord' id='panel'></div>
+    <header>
+      <h1 id='title'>Hajime Poker</h1>
+      <!-- <span style="color: #ABE34E;">ENERGY</span> -->
+      <!-- #93D50A -->
+    </header>
     <div class='info' id='info_panel'>
+      Your Name ▶ 
+      <input type="text" id="input_name" maxlength='15' placeholder='Please enter a name'>
+      &emsp;&emsp;<button id='open'>Open</button>&emsp;&emsp;
+      <button id='reset'>Reset</button>
+    </div>
+    <div class='result_bord' id='panel'></div>
+    <!-- <div class='info' id='info_panel'>
       <input type="text" id="input_name" maxlength='20' placeholder='名前を入力してください'>
       <button id='open'>開示!!!</button>
       <button id='reset'>もう一回!!!</button>
-    </div>
+    </div> -->
+    <div class='border'></div>
     <div class='select_bord' id='select_panel'>
       <button class='card select' id='0'>0</button>
       <!-- <button class='card' id='1/2'>1/2</button> -->

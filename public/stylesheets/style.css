@@ -1,6 +1,58 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* padding: 50px; */
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: black;
+  /* color: 文字色; */
+}
+
+#title {
+  /* color: #93D50A; */
+  /* color: #ABE34E; */
+  color: white;
+  font-size: 40px;
+  text-shadow    : 
+       1px  1px 1px #CFCFD2,
+      -1px  1px 1px #CFCFD2,
+       1px -1px 1px #CFCFD2,
+      -1px -1px 1px #CFCFD2,
+       1px  0px 1px #CFCFD2,
+       0px  1px 1px #CFCFD2,
+      -1px  0px 1px #CFCFD2,
+       0px -1px 1px #CFCFD2;  
+}
+
+/* #open {
+  background-color: #ABE34E;
+  color: white;
+  font-size: 14px;
+  max-width: 150px;
+  margin: 10px auto;
+} */
+/* #open:hover {
+  background-color: #638E2A;
+} */
+
+button {
+  background-color: #ABE34E;
+  /* color: white; */
+  color: black;
+  font-size: 14px;
+  max-width: 150px;
+  margin: 10px auto;
+}
+
+button:hover {
+  background-color: #638E2A;
+}
+
+.result {
+  color: black;
+  background-color: #ABE34E;
+}
+
+.card_name {
+  color: #ABE34E;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -8,15 +60,23 @@ a {
 }
 
 .select_bord{
-  width: 1000px;
+  display: inline-block;
+  /* width: 1000px; */
   height: 500px;
-  background: rgba(212, 255, 0, 0.571);
+  /* background: rgba(212, 255, 0, 0.571); */
 }
 
 .result_bord{
-  width: 1000px;
-  height: 500px;
-  background: rgb(0, 251, 255);
+  display: inline-block;
+  border: solid;
+  border-color: #CFCFD2;
+  /* width: 1000px; */
+  /* height: 500px; */
+  /* background: rgb(0, 251, 255); */
+}
+
+.border {
+  height: 30px;
 }
 
 /* .card{
@@ -38,14 +98,15 @@ a {
   font-size: 26px;
   font-weight: bold;
   box-shadow: gray 2px 2px;
-  background: white;
+  /* background: white; */
   float: left;
   cursor: pointer;
 }
 /* 裏の状態 */
 .back {
   /* background-image: url('../images/yu-gi-o.jpg'); */
-  background-color: #000000;
+  /* background-color: white; */
+  background-color: black;
   background-size: 60px 80px;
 }
 
@@ -71,4 +132,35 @@ img{
 .select {
   margin: 5px;
   /* padding: 5px; */
+}
+
+#open {
+    /* 文字サイズを1.4emに指定 */
+    font-size: 1.4em;
+    /* 文字の太さをboldに指定 */
+    font-weight: bold;
+    /* 縦方向に10px、
+     * 横方向に30pxの余白を指定 */
+    padding: 10px 30px;
+}
+
+#reset {
+      /* 文字サイズを1.4emに指定 */
+      font-size: 1.4em;
+      /* 文字の太さをboldに指定 */
+      font-weight: bold;
+      /* 縦方向に10px、9
+       * 横方向に30pxの余白を指定 */
+      padding: 10px 30px;
+}
+
+#input_name {
+  width:200px;
+  height:50px;
+  /* margin: 5px; */
+  /* padding: 10px; */
+}
+
+.info {
+  color: #ABE34E;
 }

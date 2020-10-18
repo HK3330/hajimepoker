@@ -13,6 +13,10 @@ $('.card').on({
     if (checkName() == false){
         return false
     }
+    // 人数フォームは半角数値以外は弾く
+    if (validateMemberNum() == false){
+        return false
+    }
     card_num = $(this).attr('id');
     // 自分の選んだ番号をセッションに入れる
     window.sessionStorage.setItem('select_num',card_num);
@@ -25,8 +29,12 @@ $('.card').on({
     $(".select_num").remove();
     var select_num_div = document.createElement('div');
     select_num_div.className = 'select_num';
-    select_num_div.innerHTML = 'Your Choice ' + card_num;
-    info_panel.appendChild(select_num_div);
+    select_num_div.innerHTML = 'Your Choice < ' + card_num + ' >';
+    // info_panel.appendChild(select_num_div);
+    // select_panel.appendChild(select_num_div);
+    // 要素の先頭に追加
+    $('#select_panel').prepend(select_num_div);
+    
 }})
 // カード情報受信
 socketio.on('result_card_list',function(result_arr){
@@ -40,9 +48,10 @@ socketio.on('result_card_list',function(result_arr){
 
 // オープンボタンを押したとき
 document.getElementById("open").onclick = function() {
-    if(window.confirm('カードオープンしていいですか？')){
-        socketio.emit('open', 'open');
-	}
+    // if(window.confirm('カードオープンしていいですか？')){
+    //     socketio.emit('open', 'open');
+    // }
+    socketio.emit('open', 'open');
 }
 //　オープン情報受信
 socketio.on('open',function(){
@@ -98,6 +107,17 @@ function selectCardLineUp() {
             // result_bordに追加
             panel.appendChild(frame_div);
         }
+        // メンバー数を表示
+        var input_member_num = document.getElementById("input_member_num").value;
+        if (input_member_num != ''){
+            //// 人数要素を作成
+            var member_num_p = document.createElement('p');
+            member_num_p.className = 'member_num';
+            member_num_p.innerHTML = result_user.length + '/' +  input_member_num;
+            //frame_div.appendChild(card_name_p);
+            frame_div.appendChild(member_num_p);
+            //result_bordの末尾？に人数の要素を追加
+        }
     }
 }
 
@@ -148,8 +168,10 @@ if (window.performance) {
       card_num = window.sessionStorage.getItem(['select_num']);
       var select_num_div = document.createElement('div');
       select_num_div.className = 'select_num';
-      select_num_div.innerHTML = 'Your Choice ' + card_num;
-      info_panel.appendChild(select_num_div);
+      select_num_div.innerHTML = 'Your Choice [  ' + card_num + '  ]';
+    //   info_panel.appendChild(select_num_div);
+    // select_panel.appendChild(select_num_div);
+    $('#select_panel').prepend(select_num_div);
     } else {
       // リロードされていない
     }
@@ -176,6 +198,21 @@ function validateString(val) {
     return true;
 }
 
+// 人数フォームに数字以外ならfalse
+function validateMemberNum() {
+    var input_member_num = document.getElementById("input_member_num").value;
+    //１文字目は1-9,２文字目は0-9
+    if (input_member_num == ""){
+        return true
+    }
+    var reg = new RegExp(/^[1-9][0-9]*$/);
+    if(reg.test(input_member_num)) {
+        return true;
+    }
+    alert('1以上の半角数字のみ入力できます');
+    document.getElementById("input_member_num").value = '';
+    return false;
+}
 // var result_card_list = [[1,'ソン・イェジン'],
 // [2,'愛の不時着'],
 // [3,'梨泰院クラス'],

@@ -18,6 +18,31 @@ var result_user_arr = [];
 
 io.on('connection',function(socket){
     console.log('connection')
+    // ここから
+    // 部屋
+    var room = "";
+    // 部屋に入る
+    socket.on("from_client", function(data) {
+        room = data.value;
+        console.log("クライアントから送信されたroom: %s", room);
+        joinRoom(socket, room);
+    });
+    function joinRoom(socket, room) {
+        // ユーザーをルームに参加させる
+        socket.join(room);
+        // ユーザに新しいルームに入ったことを知らせる
+        socket.emit('joinResult', { room: room });
+    }
+    // room1だけのメッセージ
+    // クライアントから送られてきたメッセージ受け取り
+    socket.on("from_client_message", function(name, message) {
+        console.log("クライアントから送信されたname: %s", name);
+        console.log("クライアントから送信されたmessage: %s", message);
+        // io.sockets.emit('receiveMessage', { name: name, message: message });
+        io.to('testroom').emit('receiveMessage', { name: name, message: message });
+    });
+    // ここまで
+
     // 接続した段階でカード情報があったら、読み込ませる。
     io.emit('result_card_list', [result_number_arr, result_user_arr]);
     // カードボタンを押されたとき

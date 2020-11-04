@@ -6,8 +6,11 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 </head>
 <body>
+  Your Name ▶ 
+  <input type="text" id="input_name" maxlength='15' placeholder='Please enter a name'>
 hogehoge
-<button id='room1'>ROOM1</button>
+<button id='roomA'>ROOMA</button>
+<button id='roomB'>ROOMB</button>
 <button id='room2' >ROOM2</button>
 <a href ="/"> 最初のページ　へ </a>
 </body>
@@ -15,10 +18,30 @@ hogehoge
 <script>
 var socketio = io();
 // 部屋に入る
-document.getElementById("room1").onclick = function() {
-  var selectRoom = 'testroom';//ここで部屋名を決められる
-  socketio.emit('from_client', { value: selectRoom });
-    console.log("ルーム情報を配信: " + selectRoom);
+document.getElementById("roomA").onclick = function() {
+  var selectRoom = 'roomA';//ここで部屋名を決められる
+  // 名前取得
+  var user_name = document.getElementById("input_name").value;
+  window.sessionStorage.setItem('name',user_name);
+  window.sessionStorage.setItem('room',selectRoom);
+  // サーバに送信
+  // socketio.emit('from_client', { room: selectRoom, name: user_name });
+  console.log("ルーム情報を配信: " + selectRoom);
+  // ページ移動
+  window.location.href = '/';
+}
+
+document.getElementById("roomB").onclick = function() {
+  var selectRoom = 'roomB';//ここで部屋名を決められる
+  // 名前取得
+  var user_name = document.getElementById("input_name").value;
+  window.sessionStorage.setItem('name',user_name);
+  window.sessionStorage.setItem('room',selectRoom);
+  // サーバに送信
+  // socketio.emit('from_client', { room: selectRoom, name: user_name });
+  console.log("ルーム情報を配信: " + selectRoom);
+  // ページ移動
+  window.location.href = '/';
 }
 // ルームに参加
 socketio.on('joinResult', function(result) {

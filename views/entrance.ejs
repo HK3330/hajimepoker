@@ -4,18 +4,42 @@
   <meta charset="utf-8">
   <title>Hajime Poker</title>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
 </head>
 <body>
+  <header>
+    <h1 id='title'>Hajime Poker</h1>
+  </header>
   Your Name ▶ 
   <input type="text" id="input_name" maxlength='15' placeholder='Please enter a name'>
-hogehoge
-<button id='roomA'>ROOMA</button>
-<button id='roomB'>ROOMB</button>
-<button id='room2' >ROOM2</button>
-<a href ="/"> 最初のページ　へ </a>
+<div class="room_button">
+  <div>
+    <button id='roomUsakapi'>ROOM Usakapi ONLY</button>
+  </div>
+  <div>
+    <button id='room1'>ROOM 1</button>
+  </div>
+  <div>
+    <button id='room2'>ROOM 2</button>
+  </div>
+  <div>
+    <button id='room3'>ROOM 3</button>
+  </div>
+  <div>
+    <button id='room4'>ROOM 4</button>
+  </div>
+  <div>
+    <button id='room5'>ROOM 5</button>
+  </div>
+  <!-- <div>
+    <button id='test'>test</button>
+  </div> -->
+</div>
 </body>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script>
+<!-- <script type="text/javascript" src="/javascripts/script.js"></script> -->
+<script type="text/javascript" src="/javascripts/entrance_script.js"></script>
+<!-- <script>
 var socketio = io();
 // 部屋に入る
 document.getElementById("roomA").onclick = function() {
@@ -28,7 +52,7 @@ document.getElementById("roomA").onclick = function() {
   // socketio.emit('from_client', { room: selectRoom, name: user_name });
   console.log("ルーム情報を配信: " + selectRoom);
   // ページ移動
-  window.location.href = '/';
+  window.location.href = '/room/';
 }
 
 document.getElementById("roomB").onclick = function() {
@@ -41,7 +65,7 @@ document.getElementById("roomB").onclick = function() {
   // socketio.emit('from_client', { room: selectRoom, name: user_name });
   console.log("ルーム情報を配信: " + selectRoom);
   // ページ移動
-  window.location.href = '/';
+  window.location.href = '/room/';
 }
 // ルームに参加
 socketio.on('joinResult', function(result) {
@@ -69,5 +93,5 @@ socketio.on('receiveMessage', function(data) {
         // updateChatMessage(chatApp, data.name, data.message);
         console.log(data + "room1で受け取ったなり")
 });
-</script>
+</script> -->
 </html>

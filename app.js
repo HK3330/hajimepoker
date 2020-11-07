@@ -3,11 +3,8 @@ var app = express();
 var http = require('http').Server(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT || 7000;
-const mongodb = require('mongodb')
-// const MongoClient = mongodb.MongoClient
 var MongoClient = require('mongodb').MongoClient;
-var dburl = "mongodb://localhost:27017/myDB";
-const assert = require('assert')
+var url = "mongodb://localhost:27017/myDB";
 
 /**
  * 追加オプション
@@ -17,206 +14,112 @@ const connectOption = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }
-        // const insertDocuments = (db, callback) => {
-        //     const documents = [
-        //         { a: 1 },
-        //         { a: 2 },
-        //         { a: 3 }
-        //     ]
-        //     // myDBデータベースのdocumentsコレクションに対して
-        //     // ドキュメントを3つ追加します
-        //     db.collection('documents').insertMany(documents, (err, result) => {
-        //         // insert結果の確認
-        //         assert.equal(err, null)
-        //         assert.equal(3, result.result.n)
-        //         assert.equal(3, result.ops.length)
 
-        //         callback(result)
-        //     })
-        // }
-                // io.sockets.emit('receiveMessage', { name: name, message: message });
-                // MongoClient.connect('mongodb://127.0.0.1:27017/myDB', (err, db) => {
-                // // MongoClient.connect('mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb', (err, db) => {
-                //     assert.equal(null, err)
-                //     db.close()
-                // })
-// moDBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+var pokerdb = 'testdb'
 
 // テンプレートエンジンの指定
 app.set("view engine", "ejs");
 // staticメソッドを利用し、指定ディレクトリ以下の静的ファイルを読み込む
-// app.use("/public", express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/public"));
 // routeの設定
 app.use("/", require("./routes/index.js"));
 
-// カード情報
-var result_number_arr = [];
-var result_user_arr = [];
-
-var room = '';
+var rooms = ['roomUsakapi', 'room1', 'room2', 'room3', 'room4', 'room5'];
 
 io.on('connection',function(socket){
-    // console.log('connection')
-    // ここから
-    // 部屋
-    var name = "";
-    // 部屋に入る
-    socket.on("from_client", function(data) {
-        room = data.room;
-        name = data.name;
-        // console.log("クライアントから送信されたroom: %s", room);
-        // console.log("クライアントから送信されたname: %s", name);
-        // ここで部屋のテーブルに追加する
-        MongoClient.connect(dburl, connectOption, function(err, db) {
+    console.log('connection')
+    // ----------------------------------------------------------------------
+    // entranceにアクセス時、使用中の部屋を教える
+    // ----------------------------------------------------------------------
+    socket.on('entrance', async function(data) {
+        let client;
+        try {
+            client = await MongoClient.connect(url, connectOption);
+            const db = client.db(pokerdb);
+            var vacant_room_arr = []
+            for await (room of rooms){
+                const collection = db.collection(room);
+                const result = await collection.find({}).toArray();
+                if (result.length != 0) {
+                    vacant_room_arr.push(room);
+                }
+            }
+            io.emit('entrance', vacant_room_arr);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            if (client) client.close();
+        }
+    });
+    
+    // ----------------------------------------------------------------------
+    // DB書き込みテストボタン用
+    // ----------------------------------------------------------------------
+    socket.on("db_test", function(data) {
+        MongoClient.connect(url, connectOption, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("testdb");
-            // ----------------------------------------------------------------------
-            // INSERT
-            // ----------------------------------------------------------------------
-            var obj = { name: name, choice: "" };
-            dbo.collection(room).insertOne(obj , function(err, res) {
+            var dbo = db.db(pokerdb);
+            var obj = { name: 'test', time: new Date() };
+            dbo.collection('roomA').insertOne(obj , function(err, res) {
               if (err) throw err;
               db.close();
-            // ----------------------------------------------------------------------
-            // SELECT
-            // ----------------------------------------------------------------------
-            // var obj = {name: "Company Inc"};
-            // dbo.collection("testCollection").find(obj).toArray(function(err, result) {
-            //     if (err) throw err;
-                // console.log(result);
-            //     db.close();
-            // });
-        });
-        });
-        joinRoom(socket, room);
-        // TODO 部屋の人数をカウントして部屋先に知らせる
-        // TODO? 部屋に入ったタイミングですでにDBに入っているリスト並べる
-        MongoClient.connect(dburl, connectOption, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("testdb");
-            // ----------------------------------------------------------------------
-            // INSERT
-            // ----------------------------------------------------------------------
-            // var obj = { name: name, choice: "" };
-            // dbo.collection(room).insertOne(obj , function(err, res) {
-            //   if (err) throw err;
-            //   db.close();
-            // ----------------------------------------------------------------------
-            // SELECT
-            // ----------------------------------------------------------------------
-            var obj = {name: "Company Inc"};
-            dbo.collection(room).find().toArray(function(err, result) {
-                if (err) throw err;
-                // console.log(result);
-                // console.log(result[0]);//{ _id: 5fa0e02a580e500873000879, name: 'cc', choice: '' }
-                // console.log(result[0]["name"]);//cc
-                // console.log(result[0]["choice"]);
-                result_number_arr=[]
-                result_user_arr=[]
-                for (let i=0;i < result.length; i++){
-                    if (result[i]["choice"] != "") {
-                        result_number_arr.push(result[i]["choice"]);
-                        result_user_arr.push(result[i]["name"]);
-                    }
-                }
-                // console.log(result_number_arr)
-                // console.log(result_user_arr)
-                db.close();
-                io.to(room).emit('result_card_list', [result_number_arr, result_user_arr]);
-            // });
-        });
-        });
-
-
-    });
-    function joinRoom(socket, room) {
-        // ユーザーをルームに参加させる
-        socket.join(room);
-        // ユーザに新しいルームに入ったことを知らせる
-        // TODO 入った部屋先にメッセージを送る
-        socket.emit('joinResult', { room: room });
-    }
-    // room1だけのメッセージ
-    // クライアントから送られてきたメッセージ受け取り
-    socket.on("from_client_message", function(name, message) {
-        // console.log("クライアントから送信されたname: %s", name);
-        // console.log("クライアントから送信されたmessage: %s", message);
-        MongoClient.connect(dburl, connectOption, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("testdb");
-            // var obj = { name: "Company Inc", address: "Highway 37" };
-            // // ----------------------------------------------------------------------
-            // // INSERT
-            // // ----------------------------------------------------------------------
-            // dbo.collection("testCollection").insertOne(obj , function(err, res) {
-            //   if (err) throw err;
-            //   db.close();
-            var obj = {name: "Company Inc"};
-            // ----------------------------------------------------------------------
-            // SELECT
-            // ----------------------------------------------------------------------
-            dbo.collection("testCollection").find(obj).toArray(function(err, result) {
-                if (err) throw err;
-                // console.log(result);
-                db.close();
             });
         });
-        // mongoDBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-        // MongoClient.connect('mongodb://localhost:27017/myDB', connectOption, (err, db) => {
-        //     assert.equal(null, err)
-            console.log("Connected successfully to server")
-        //     // insertDocuments(db, () => {
-        //     //     db.close()
-        //     // })
-        //     const insertDocuments = (db, callback) => {
-        //         const documents = [
-        //             { a: 1 },
-        //             { a: 2 },
-        //             { a: 3 }
-        //         ]
-        //         // myDBデータベースのdocumentsコレクションに対して
-        //         // ドキュメントを3つ追加します
-        //         db.collection('documents').insertMany(documents, (err, result) => {
-        //             // insert結果の確認
-        //             assert.equal(err, null)
-        //             assert.equal(3, result.result.n)
-        //             assert.equal(3, result.ops.length)
-    
-        //             callback(result)
-        //         })
-        //     }
-        // })
-        // io.to('testroom').emit('receiveMessage', { name: name, message: message });
-        io.to('roomA').emit('receiveMessage', { name: name, message: message });
     });
-    // ここまで
+
+    // ----------------------------------------------------------------------
+    // 部屋入室時
+    // ----------------------------------------------------------------------
+    socket.on("from_client", async function(data) {
+        var room = data.room;
+        var name = data.name;
+        // ユーザーをルームに参加させる
+        socket.join(room);
+        //ここからasyncの書き方
+        let client;
+        try {
+            client = await MongoClient.connect(url, connectOption);
+            const db = client.db(pokerdb);
+            const collection = db.collection(room);
+            const user = await collection.findOne({name: name});
+            if (user) {
+            } else {
+                await collection.insertOne({ name: name, choice: "", time: new Date() });
+            }
+            const result = await collection.find({}).toArray();
+            var result_number_arr=[]
+            var result_user_arr=[]
+            for (let i=0;i < result.length; i++){
+                if (result[i]["choice"] != "") {
+                    result_number_arr.push(result[i]["choice"]);
+                    result_user_arr.push(result[i]["name"]);
+                }
+            }
+            io.to(room).emit('result_card_list', [result_number_arr, result_user_arr, result.length]);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            if (client) client.close();
+        }
+        // ユーザに新しいルームに入ったことを知らせる
+        // TODO 入った部屋先にメッセージを送る
+        // socket.emit('joinResult', { room: room });
+    });
+
     // ----------------------------------------------------------------------
     // カードボタンを押されたとき
     // ----------------------------------------------------------------------
-    socket.on('result_card_list',function(result_arr){// TODO 部屋情報も持ってくる
-        console.log(result_arr);
-        // セッションバージョン
-        // var card_num = result_arr[0];
-        // var name = result_arr[1];
-        // console.log('サーバサイド' + card_num + name);
-        // result_number_arr.push(card_num);
-        // result_user_arr.push(name);
-        // // io.emit('result_card_list', [result_arr[0], result_arr[1]]);
-        // io.emit('result_card_list', [result_number_arr, result_user_arr]);
-
-        // DBバージョン
+    socket.on('result_card_list',function(result_arr){
         var card_num = result_arr[0];
         var name = result_arr[1];
-        room = result_arr[2];
-        // console.log('サーバサイド' + card_num + name);
-        // ここで部屋ごとのテーブルにupdateする。名前は入ってるからupdate
-        result_number_arr.push(card_num);
-        result_user_arr.push(name);
+        var room = result_arr[2];
+        var result_number_arr = [];
+        var result_user_arr = [];
+
         // dbに追加
-        MongoClient.connect(dburl, connectOption, function(err, db) {
+        MongoClient.connect(url, connectOption, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("testdb");
+            var dbo = db.db(pokerdb);
             var where = {name: name};
             var set = {$set: {choice: card_num}};
             // ----------------------------------------------------------------------
@@ -224,58 +127,39 @@ io.on('connection',function(socket){
             // ----------------------------------------------------------------------
             dbo.collection(room).updateMany(where, set, function(err, result) {
               if (err) throw err;
-            //   console.log("update");
               db.close();
             });
         });
         // dbの情報を取得
-        MongoClient.connect(dburl, connectOption, function(err, db) {
+        MongoClient.connect(url, connectOption, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("testdb");
-            // ----------------------------------------------------------------------
-            // INSERT
-            // ----------------------------------------------------------------------
-            // var obj = { name: name, choice: "" };
-            // dbo.collection(room).insertOne(obj , function(err, res) {
-            //   if (err) throw err;
-            //   db.close();
+            var dbo = db.db(pokerdb);
             // ----------------------------------------------------------------------
             // SELECT
             // ----------------------------------------------------------------------
-            // var obj = {name: "Company Inc"};
             dbo.collection(room).find().toArray(function(err, result) {
                 if (err) throw err;
-                // console.log(result);
-                // console.log(result[0]);//{ _id: 5fa0e02a580e500873000879, name: 'cc', choice: '' }
-                // console.log(result[0]["name"]);//cc
-                // console.log(result[0]["choice"]);
-                result_number_arr=[]
-                result_user_arr=[]
                 for (let i=0;i < result.length; i++){
                     if (result[i]["choice"] != "") {
                         result_number_arr.push(result[i]["choice"]);
                         result_user_arr.push(result[i]["name"]);
                     }
                 }
-                // console.log(result_number_arr)
-                // console.log(result_user_arr)
                 db.close();
-                io.to(room).emit('result_card_list', [result_number_arr, result_user_arr]);
-            // });
+                io.to(room).emit('result_card_list', [result_number_arr, result_user_arr, result.length]);
+            });
         });
-        });
-        // io.emit('result_card_list', [result_number_arr, result_user_arr]);
     });
 
     // ----------------------------------------------------------------------
     // オープンボタンを押されたとき
     // ----------------------------------------------------------------------
     socket.on('open',function(room){
-        MongoClient.connect(dburl, connectOption, function(err, db) {
+        MongoClient.connect(url, connectOption, function(err, db) {
             var choice_arr = [];
             var name_arr = [];
             if (err) throw err;
-            var dbo = db.db("testdb");
+            var dbo = db.db(pokerdb);
             // ----------------------------------------------------------------------
             // SELECT
             // ----------------------------------------------------------------------
@@ -297,11 +181,9 @@ io.on('connection',function(socket){
     // リセットボタンを押されたとき
     // ----------------------------------------------------------------------
     socket.on('reset',function(room){
-        result_number_arr = [];
-        result_user_arr = [];
-        MongoClient.connect(dburl, connectOption, function(err, db) {
+        MongoClient.connect(url, connectOption, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("testdb");
+            var dbo = db.db(pokerdb);
             var where = {};
             var set = {$set: {choice: ''}};
             // ----------------------------------------------------------------------
@@ -312,66 +194,29 @@ io.on('connection',function(socket){
               db.close();
             });
         });
-        //　全削除だと、リセット後にカードを押してもupdate先がないので、できない。nameは残さないといけなかった。
-        // MongoClient.connect(dburl, connectOption, function(err, db) {
-        //     if (err) throw err;
-        //     var dbo = db.db("testdb");
-        //     // ----------------------------------------------------------------------
-        //     // DELETE
-        //     // ----------------------------------------------------------------------
-        //     dbo.collection(room).deleteMany();
-        // });
         io.to(room).emit('reset', 'reset');
+    });
+    // ----------------------------------------------------------------------
+    // 部屋退出ボタンを押されたとき
+    // ----------------------------------------------------------------------
+    socket.on('leave',function(data){
+        var room = data[0];
+        var name = data[1];
+        MongoClient.connect(url, connectOption, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db(pokerdb);
+            var where = {name: name};
+            // ----------------------------------------------------------------------
+            // DELETE
+            // ----------------------------------------------------------------------
+            dbo.collection(room).deleteMany(where, function(err, result) {
+              if (err) throw err;
+              db.close();
+            });
+          });
     });
 });
 
 http.listen(PORT, function(){
     // console.log('server listening. Port:' + PORT);
 });
-
-
-//return が帰らない
-function findAll(room){
-    var name_arr=[]
-    var choice_arr=[]
-    MongoClient.connect(dburl, connectOption, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("testdb");
-        // ----------------------------------------------------------------------
-        // SELECT
-        // ----------------------------------------------------------------------
-        dbo.collection(room).find().toArray(function(err, result) {
-            // if (err) throw err;
-            // console.log("roomはどこじゃ");
-            // console.log(result);
-            // console.log(result[0]);//{ _id: 5fa0e02a580e500873000879, name: 'cc', choice: '' }
-            // console.log(result[0]["name"]);//cc
-            // console.log(result[0]["choice"]);
-            for (let i=0;i < result.length; i++){
-                if (result[i]["choice"] != "") {
-                    choice_arr.push(result[i]["choice"]);
-                    name_arr.push(result[i]["name"]);
-                }
-            }
-            // console.log(result_number_arr);
-            // console.log(a);
-            db.close();
-            // io.to(room).emit('result_card_list', [result_number_arr, result_user_arr]);
-            // console.log(name_arr);
-            // console.log(choice_arr);
-            return ['hoge','tt'];
-            // return result_user_arr;
-            // return result_user_arr;
-        // });
-    });
-    // console.log(result_user_arr);
-    });
-    console.log(choice_arr);
-    // return [result_user_arr, result_number_arr]
-    // console.log("hogehogehgoehogheogheo");
-    // console.log(result_number_arr);
-    // return 'hoge';
-    // console.log(a);
-    // console.log(choice_arr);
-    // return ['hoge','tt'];
-}

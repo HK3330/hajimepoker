@@ -5,55 +5,44 @@ var result_number = [];
 var result_user = [];
 // 自分の選んだカード番号
 var card_num = '';
+// 参加人数
+var all_member = 0;
+var voted_member = 0;
 
-// var selectRoom = 'roomA';//ここで部屋名を決められる
 // 名前取得
 // var user_name = document.getElementById("input_name").value;
 var room = window.sessionStorage.getItem(['room']);
 var name = window.sessionStorage.getItem(['name']);
+if (room == null || name == null) {
+    window.location.href = '/';
+}
 
-// サーバに送信
+// 部屋に入室させる
 socketio.emit('from_client', { room: room, name: name });
 
 // カードボタン
 $('.card').on({
 'click': function() {
-    // 空白と記号は弾く
-    // if (checkName() == false){
-    //     return false
-    // }
-    // 人数フォームは半角数値以外は弾く
-    if (validateMemberNum() == false){
-        return false
-    }
     card_num = $(this).attr('id');
     // 自分の選んだ番号をセッションに入れる
     window.sessionStorage.setItem('select_num',card_num);
-    // var user_name = document.getElementById("input_name").value;
     // 名前と番号をサーバに送信
-    // socketio.emit('result_card_list', [card_num, user_name]);
     socketio.emit('result_card_list', [card_num, name, room]);
-    // ボタン無効化
-    // $(".select").prop("disabled", true);
     // 自分の選んだ番号を表示
     $(".select_num").remove();
     var select_num_div = document.createElement('div');
     select_num_div.className = 'select_num';
     select_num_div.innerHTML = 'Your Choice < ' + card_num + ' >';
-    // info_panel.appendChild(select_num_div);
-    // select_panel.appendChild(select_num_div);
     // 要素の先頭に追加
     $('#select_panel').prepend(select_num_div);
-    
 }})
 // カード情報受信
 socketio.on('result_card_list',function(result_arr){
     console.log('クライアント' + result_arr[0] + result_arr[1]);
-    // 番号と名前をセッションに入れる
-    // window.sessionStorage.setItem(['result_number'],[result_arr[0]]);
-    // window.sessionStorage.setItem(['result_user'],[result_arr[1]]);
+    var number_of_people = result_arr[2];
+
     // カードを表示する
-    selectCardLineUp(result_arr[1])
+    selectCardLineUp(result_arr[1], number_of_people)
 });
 
 // オープンボタンを押したとき
@@ -67,6 +56,7 @@ document.getElementById("open").onclick = function() {
 socketio.on('open',function(result_arr){
     // ここで名前をキーに数字を入れる
     console.log(result_arr);
+    // オープン状態のカードを並べる
     openCardLineUp(result_arr[0], result_arr[1]);
     $('.back').removeClass('back');
 });
@@ -85,26 +75,26 @@ socketio.on('reset',function(){
     $(".select").prop("disabled", false);
     // 自分の選んだ番号を削除
     $(".select_num").remove();
+    voted_member = 0;
     result_user = [];
     result_number = [];
+    member_num(voted_member, all_member);
 });
 
-// roomA用のメッセージだけ受け取る
-socketio.on('receiveMessage', function(data) {
-    // updateChatMessage(chatApp, data.name, data.message);
-    console.log(data + "roomAで受け取ったなり")
-});
+// 退出ボタン
+document.getElementById('leave').onclick = function() {
+    if(window.confirm('部屋を退出しますか？')){
+        socketio.emit('leave', [room, name]);
+        window.sessionStorage.clear();
+        window.location.href = '/';
+	}
+}
 
-// セッションの情報でカードを並べる
-function selectCardLineUp(result_user) {
-    // var input_name = document.getElementById("input_name").value;
+// カードを並べる
+function selectCardLineUp(result_user, number_of_people) {
     // 配下をすべて削除
     $('.result_bord').empty();
-    // セッションから値(str)を取る
-    // var result_user_str = window.sessionStorage.getItem(['result_user']);
 
-    // strを配列化
-    // result_user = result_user_str.split(',');
     if (result_user[0] != ''){
     
         for (let i = 0; i < result_user.length; i++) {
@@ -126,34 +116,18 @@ function selectCardLineUp(result_user) {
             // result_bordに追加
             panel.appendChild(frame_div);
         }
-        // メンバー数を表示
-        var input_member_num = document.getElementById("input_member_num").value;
-        if (input_member_num != ''){
-            //// 人数要素を作成
-            var member_num_p = document.createElement('p');
-            member_num_p.className = 'member_num';
-            member_num_p.innerHTML = result_user.length + '/' +  input_member_num;
-            //frame_div.appendChild(card_name_p);
-            frame_div.appendChild(member_num_p);
-            //result_bordの末尾？に人数の要素を追加
-        }
+        // // メンバー数を表示
+        voted_member = result_user.length;
+        all_member = number_of_people;
+        member_num(voted_member, all_member);
     }
 }
 
+// カードを裏返す
 function openCardLineUp(result_user, result_number) {
-    // var input_name = document.getElementById("input_name").value;
     // 配下をすべて削除
     $('.result_bord').empty();
-    // セッションから値(str)を取る
-    // var result_number_str = window.sessionStorage.getItem(['result_number']);
-    // var result_user_str = window.sessionStorage.getItem(['result_user']);
 
-    // strを配列化
-    // result_number = result_number_str.split(',');
-    // [TODO] ソートするならresult_numberの中身をstrをintに変換
-    //// ∞は最後、?は最後から2番目とか？
-    ////// そうするとnameも配列を入れ替えないといけないな。 
-    // result_user = result_user_str.split(',');
     if (result_number[0] != ''){
     
         for (let i = 0; i < result_number.length; i++) {
@@ -187,7 +161,7 @@ if (window.performance) {
       card_num = window.sessionStorage.getItem(['select_num']);
       var select_num_div = document.createElement('div');
       select_num_div.className = 'select_num';
-      select_num_div.innerHTML = 'Your Choice [  ' + card_num + '  ]';
+      select_num_div.innerHTML = 'Your Choice <  ' + card_num + '  >';
     //   info_panel.appendChild(select_num_div);
     // select_panel.appendChild(select_num_div);
     $('#select_panel').prepend(select_num_div);
@@ -196,44 +170,13 @@ if (window.performance) {
     }
 }
 
-// フォームが空か記号が入ってたらalertしてfalse
-function checkName() {
-    var check_name = document.getElementById("input_name").value;
-    if(check_name == '') {
-        alert('名前を入力してください');
-        return false;
-    }
-    return validateString(check_name)
+function member_num(voted, all) {
+        // メンバー数を表示
+        //// 人数要素を作成
+        var member_num_p = document.createElement('p');
+        member_num_p.className = 'member_num';
+        member_num_p.innerHTML = voted + '/' + all;
+        $(".member_num").remove();
+        $('.menber').prepend(member_num_p);
+        // $('#member').append(member_num_p);
 }
-
-// フォームに記号が入っていたらfalse
-function validateString(val) {
-    var reg = new RegExp(/[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~]/g);
-    if(reg.test(val)) {
-        alert('記号は使えません');
-        document.getElementById("input_name").value = '';
-        return false;
-    }
-    return true;
-}
-
-// 人数フォームに数字以外ならfalse
-function validateMemberNum() {
-    var input_member_num = document.getElementById("input_member_num").value;
-    //１文字目は1-9,２文字目は0-9
-    if (input_member_num == ""){
-        return true
-    }
-    var reg = new RegExp(/^[1-9][0-9]*$/);
-    if(reg.test(input_member_num)) {
-        return true;
-    }
-    alert('1以上の半角数字のみ入力できます');
-    document.getElementById("input_member_num").value = '';
-    return false;
-}
-// var result_card_list = [[1,'ソン・イェジン'],
-// [2,'愛の不時着'],
-// [3,'梨泰院クラス'],
-// [4,'秘密の森'],
-// [5,'トッケビ']];

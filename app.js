@@ -109,46 +109,34 @@ io.on('connection',function(socket){
     // ----------------------------------------------------------------------
     // カードボタンを押されたとき
     // ----------------------------------------------------------------------
-    socket.on('result_card_list',function(result_arr){
+    socket.on('result_card_list', async function(result_arr){
         var card_num = result_arr[0];
         var name = result_arr[1];
         var room = result_arr[2];
         var result_number_arr = [];
         var result_user_arr = [];
 
-        // dbに追加
-        MongoClient.connect(url, connectOption, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db(pokerdb);
+        let client;
+        try {
+            client = await MongoClient.connect(url, connectOption);
+            const db = client.db(pokerdb);
+            const collection = db.collection(room);
             var where = {name: name};
             var set = {$set: {choice: card_num}};
-            // ----------------------------------------------------------------------
-            // UPDATE
-            // ----------------------------------------------------------------------
-            dbo.collection(room).updateMany(where, set, function(err, result) {
-              if (err) throw err;
-              db.close();
-            });
-        });
-        // dbの情報を取得
-        MongoClient.connect(url, connectOption, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db(pokerdb);
-            // ----------------------------------------------------------------------
-            // SELECT
-            // ----------------------------------------------------------------------
-            dbo.collection(room).find().toArray(function(err, result) {
-                if (err) throw err;
-                for (let i=0;i < result.length; i++){
-                    if (result[i]["choice"] != "") {
-                        result_number_arr.push(result[i]["choice"]);
-                        result_user_arr.push(result[i]["name"]);
-                    }
+            await collection.updateMany(where, set);
+            const result = await collection.find({}).toArray();
+            for (let i=0;i < result.length; i++){
+                if (result[i]["choice"] != "") {
+                    result_number_arr.push(result[i]["choice"]);
+                    result_user_arr.push(result[i]["name"]);
                 }
-                db.close();
-                io.to(room).emit('result_card_list', [result_number_arr, result_user_arr, result.length]);
-            });
-        });
+            }
+            io.to(room).emit('result_card_list', [result_number_arr, result_user_arr, result.length]);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            if (client) client.close();
+        }
     });
 
     // ----------------------------------------------------------------------

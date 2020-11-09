@@ -5,9 +5,7 @@ var socketio = io();
 socketio.emit('entrance');
 socketio.on('entrance', function(vacant_room_arr) {
   $(".in_use").remove();
-  console.log(vacant_room_arr);
   for (const vacant_room of vacant_room_arr) {
-    console.log(vacant_room);
     //divを作る
     var in_use_div = document.createElement('div');
     in_use_div.className = 'in_use';

@@ -38,7 +38,6 @@ $('.card').on({
 }})
 // カード情報受信
 socketio.on('result_card_list',function(result_arr){
-    console.log('クライアント' + result_arr[0] + result_arr[1]);
     var number_of_people = result_arr[2];
 
     // カードを表示する
@@ -55,7 +54,6 @@ document.getElementById("open").onclick = function() {
 //　オープン情報受信
 socketio.on('open',function(result_arr){
     // ここで名前をキーに数字を入れる
-    console.log(result_arr);
     // オープン状態のカードを並べる
     openCardLineUp(result_arr[0], result_arr[1]);
     $('.back').removeClass('back');

@@ -41,7 +41,7 @@ socketio.on('result_card_list',function(result_arr){
     var number_of_people = result_arr[2];
 
     // カードを表示する
-    selectCardLineUp(result_arr[1], number_of_people)
+    selectCardLineUp(result_arr[1], number_of_people);
 });
 
 // オープンボタンを押したとき

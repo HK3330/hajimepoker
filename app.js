@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 const io = require('socket.io')(http);
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 7000;
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/myDB";
 

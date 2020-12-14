@@ -6,8 +6,6 @@ const PORT = process.env.PORT || 7000;
 
 // テンプレートエンジンの指定
 app.set("view engine", "ejs");
-// staticメソッドを利用し、指定ディレクトリ以下の静的ファイルを読み込む
-// app.use("/public", express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/public"));
 // routeの設定
 app.use("/", require("./routes/index.js"));
@@ -17,14 +15,12 @@ var result_number_arr = [];
 var result_user_arr = [];
 
 io.on('connection',function(socket){
-    console.log('connection')
     // ここから
     // 部屋
     var room = "";
     // 部屋に入る
     socket.on("from_client", function(data) {
         room = data.value;
-        console.log("クライアントから送信されたroom: %s", room);
         joinRoom(socket, room);
     });
     function joinRoom(socket, room) {
@@ -36,9 +32,6 @@ io.on('connection',function(socket){
     // room1だけのメッセージ
     // クライアントから送られてきたメッセージ受け取り
     socket.on("from_client_message", function(name, message) {
-        console.log("クライアントから送信されたname: %s", name);
-        console.log("クライアントから送信されたmessage: %s", message);
-        // io.sockets.emit('receiveMessage', { name: name, message: message });
         io.to('testroom').emit('receiveMessage', { name: name, message: message });
     });
     // ここまで
@@ -49,10 +42,8 @@ io.on('connection',function(socket){
     socket.on('result_card_list',function(result_arr){
         var card_num = result_arr[0];
         var name = result_arr[1];
-        console.log('サーバサイド' + card_num + name);
         result_number_arr.push(card_num);
         result_user_arr.push(name);
-        // io.emit('result_card_list', [result_arr[0], result_arr[1]]);
         io.emit('result_card_list', [result_number_arr, result_user_arr]);
     });
     // オープンボタンを押されたとき
@@ -68,5 +59,5 @@ io.on('connection',function(socket){
 });
 
 http.listen(PORT, function(){
-    console.log('server listening. Port:' + PORT);
+    // console.log('server listening. Port:' + PORT);
 });

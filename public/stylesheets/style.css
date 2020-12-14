@@ -6,99 +6,56 @@ body {
 }
 
 #title {
-  /* color: #93D50A; */
-  /* color: #ABE34E; */
   color: white;
   font-size: 40px;
-  text-shadow    : 
-       1px  1px 1px #CFCFD2,
-      -1px  1px 1px #CFCFD2,
-       1px -1px 1px #CFCFD2,
-      -1px -1px 1px #CFCFD2,
-       1px  0px 1px #CFCFD2,
-       0px  1px 1px #CFCFD2,
-      -1px  0px 1px #CFCFD2,
-       0px -1px 1px #CFCFD2;  
+  text-shadow: 1px 1px 1px #cfcfd2, -1px 1px 1px #cfcfd2, 1px -1px 1px #cfcfd2,
+    -1px -1px 1px #cfcfd2, 1px 0px 1px #cfcfd2, 0px 1px 1px #cfcfd2,
+    -1px 0px 1px #cfcfd2, 0px -1px 1px #cfcfd2;
 }
 
-/* #open {
-  background-color: #ABE34E;
-  color: white;
-  font-size: 14px;
-  max-width: 150px;
-  margin: 10px auto;
-} */
-/* #open:hover {
-  background-color: #638E2A;
-} */
-
 button {
-  /* background-color: #ABE34E;
-  color: black; */
   font-size: 14px;
   max-width: 150px;
   margin: 10px auto;
-  color: #ABE34E;
+  color: #abe34e;
   background-color: black;
 }
 
 button:hover {
-  background-color: #638E2A;
+  background-color: #638e2a;
 }
 
 .result {
-  /* color: black;
-  background-color: #ABE34E; */
-  color: #ABE34E;
+  color: #abe34e;
   background-color: black;
 }
 
 .card_name {
-  /* color: #ABE34E; */
   color: white;
   font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
 }
 
-.select_bord{
+.select_bord {
   display: inline-block;
-  /* width: 1000px; */
-  /* background: rgba(212, 255, 0, 0.571); */
-  /* border: solid; */
-  /* border-color: #CFCFD2; */
-  /* border-color: #ABE34E; */
-
 }
 
-.result_bord{
+.result_bord {
   display: inline-block;
   border: solid;
-  /* border-color: #CFCFD2; */
   border: 0.1px solid;
   border-radius: 8px;
-  border-color: #ABE34E;
-  /* width: 1000px; */
-  /* height: 500px; */
-  /* background: rgb(0, 251, 255); */
+  border-color: #abe34e;
 }
 
 .border {
   height: 30px;
 }
 
-/* .card{
-  display: inline-block;
-  margin       : auto;
-  width        : 70px;
-  height       : 80px;
-  background   : linear-gradient(to bottom, #99ccff, #0059b3);
-} */
-
 .card {
-  /* margin: 5px; */
   width: 60px;
   height: 80px;
   line-height: 80px;
@@ -108,19 +65,16 @@ a {
   font-size: 26px;
   font-weight: bold;
   box-shadow: gray 2px 2px;
-  /* background: white; */
   float: left;
   cursor: pointer;
 }
 /* 裏の状態 */
 .back {
-  /* background-image: url('../images/yu-gi-o.jpg'); */
-  /* background-color: white; */
   background-color: black;
   background-size: 60px 80px;
 }
 
-img{
+img {
   width: 80px;
   height: 150px;
 }
@@ -132,8 +86,6 @@ img{
   float: left;
   /* フレームの中の要素を中央揃えに */
   align-items: center;
-  /* align-items: flex-end; */
-  /* flexなんちゃらを使えるように */
   display: flex;
   /* フレームの中の要素を縦並びに */
   flex-direction: column;
@@ -145,38 +97,31 @@ img{
 }
 
 #open {
-    /* 文字サイズを1.4emに指定 */
-    font-size: 1.4em;
-    /* 文字の太さをboldに指定 */
-    font-weight: bold;
-    /* 縦方向に10px、
+  /* 文字サイズを1.4emに指定 */
+  font-size: 1.4em;
+  /* 文字の太さをboldに指定 */
+  font-weight: bold;
+  /* 縦方向に10px、
      * 横方向に30pxの余白を指定 */
-    padding: 10px 30px;
+  padding: 10px 30px;
 }
 
 #reset {
-      /* 文字サイズを1.4emに指定 */
-      font-size: 1.4em;
-      /* 文字の太さをboldに指定 */
-      font-weight: bold;
-      /* 縦方向に10px、9
+  /* 文字サイズを1.4emに指定 */
+  font-size: 1.4em;
+  /* 文字の太さをboldに指定 */
+  font-weight: bold;
+  /* 縦方向に10px、9
        * 横方向に30pxの余白を指定 */
-      padding: 10px 30px;
+  padding: 10px 30px;
 }
 
 #input_name {
-  width:150px;
-  height:50px;
-  /* margin: 5px; */
-  /* padding: 10px; */
+  width: 150px;
+  height: 50px;
 }
 
 #input_member_num {
-  width:50px;
-  height:50px;
-  /* margin: 5px; */
-  /* 
-
-.info {
-  /* color: #ABE34E; */
+  width: 50px;
+  height: 50px;
 }

@@ -30,15 +30,12 @@ $('.card').on({
     var select_num_div = document.createElement('div');
     select_num_div.className = 'select_num';
     select_num_div.innerHTML = 'Your Choice < ' + card_num + ' >';
-    // info_panel.appendChild(select_num_div);
-    // select_panel.appendChild(select_num_div);
     // 要素の先頭に追加
     $('#select_panel').prepend(select_num_div);
     
 }})
 // カード情報受信
 socketio.on('result_card_list',function(result_arr){
-    // console.log('クライアント' + result_arr[0] + result_arr[1]);
     // 番号と名前をセッションに入れる
     window.sessionStorage.setItem(['result_number'],[result_arr[0]]);
     window.sessionStorage.setItem(['result_user'],[result_arr[1]]);
@@ -48,9 +45,6 @@ socketio.on('result_card_list',function(result_arr){
 
 // オープンボタンを押したとき
 document.getElementById("open").onclick = function() {
-    // if(window.confirm('カードオープンしていいですか？')){
-    //     socketio.emit('open', 'open');
-    // }
     socketio.emit('open', 'open');
 }
 //　オープン情報受信
@@ -78,7 +72,6 @@ socketio.on('reset',function(){
 
 // セッションの情報でカードを並べる
 function selectCardLineUp() {
-    // var input_name = document.getElementById("input_name").value;
     // 配下をすべて削除
     $('.result_bord').empty();
     // セッションから値(str)を取る
@@ -122,7 +115,6 @@ function selectCardLineUp() {
 }
 
 function openCardLineUp() {
-    // var input_name = document.getElementById("input_name").value;
     // 配下をすべて削除
     $('.result_bord').empty();
     // セッションから値(str)を取る
@@ -131,9 +123,6 @@ function openCardLineUp() {
 
     // strを配列化
     result_number = result_number_str.split(',');
-    // [TODO] ソートするならresult_numberの中身をstrをintに変換
-    //// ∞は最後、?は最後から2番目とか？
-    ////// そうするとnameも配列を入れ替えないといけないな。 
     result_user = result_user_str.split(',');
     if (result_number[0] != ''){
     
@@ -169,8 +158,6 @@ if (window.performance) {
       var select_num_div = document.createElement('div');
       select_num_div.className = 'select_num';
       select_num_div.innerHTML = 'Your Choice [  ' + card_num + '  ]';
-    //   info_panel.appendChild(select_num_div);
-    // select_panel.appendChild(select_num_div);
     $('#select_panel').prepend(select_num_div);
     } else {
       // リロードされていない
@@ -213,8 +200,3 @@ function validateMemberNum() {
     document.getElementById("input_member_num").value = '';
     return false;
 }
-// var result_card_list = [[1,'ソン・イェジン'],
-// [2,'愛の不時着'],
-// [3,'梨泰院クラス'],
-// [4,'秘密の森'],
-// [5,'トッケビ']];

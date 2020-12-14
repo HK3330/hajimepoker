@@ -15,7 +15,7 @@ var result_number_arr = [];
 var result_user_arr = [];
 
 io.on('connection',function(socket){
-    // ここから
+
     // 部屋
     var room = "";
     // 部屋に入る
@@ -34,7 +34,6 @@ io.on('connection',function(socket){
     socket.on("from_client_message", function(name, message) {
         io.to('testroom').emit('receiveMessage', { name: name, message: message });
     });
-    // ここまで
 
     // 接続した段階でカード情報があったら、読み込ませる。
     io.emit('result_card_list', [result_number_arr, result_user_arr]);

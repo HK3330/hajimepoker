@@ -10,7 +10,6 @@ var all_member = 0;
 var voted_member = 0;
 
 // 名前取得
-// var user_name = document.getElementById("input_name").value;
 var room = window.sessionStorage.getItem(['room']);
 var name = window.sessionStorage.getItem(['name']);
 if (room == null || name == null) {
@@ -38,17 +37,14 @@ $('.card').on({
 }})
 // カード情報受信
 socketio.on('result_card_list',function(result_arr){
+    var result_user = result_arr[1];
     var number_of_people = result_arr[2];
-
     // カードを表示する
-    selectCardLineUp(result_arr[1], number_of_people);
+    selectCardLineUp(result_user, number_of_people);
 });
 
 // オープンボタンを押したとき
 document.getElementById("open").onclick = function() {
-    // if(window.confirm('カードオープンしていいですか？')){
-    //     socketio.emit('open', 'open');
-    // }
     socketio.emit('open', room);
 }
 //　オープン情報受信
@@ -68,7 +64,6 @@ document.getElementById("reset").onclick = function() {
 // リセット情報受信
 socketio.on('reset',function(){
     $('.result_bord').empty();
-    // window.sessionStorage.clear();
     // ボタン有効化
     $(".select").prop("disabled", false);
     // 自分の選んだ番号を削除

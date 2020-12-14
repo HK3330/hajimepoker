@@ -7,71 +7,40 @@ body {
 }
 
 #title {
-  /* color: #93D50A; */
-  /* color: #ABE34E; */
-  /* color: white; */
   font-size: 40px;
-  /* text-shadow    : 
-       1px  1px 1px #CFCFD2,
-      -1px  1px 1px #CFCFD2,
-       1px -1px 1px #CFCFD2,
-      -1px -1px 1px #CFCFD2,
-       1px  0px 1px #CFCFD2,
-       0px  1px 1px #CFCFD2,
-      -1px  0px 1px #CFCFD2,
-       0px -1px 1px #CFCFD2; */
 
-  /* RAZER風 */
-  color: #0E0E0E;
-  text-shadow    : 
-  1px  1px 1px #00EE00,
- -1px  1px 1px #00EE00,
-  1px -1px 1px #00EE00,
- -1px -1px 1px #00EE00,
-  1px  0px 1px #00EE00,
-  0px  1px 1px #00EE00,
- -1px  0px 1px #00EE00,
-  0px -1px 1px #00EE00;
-  
+  /* R○ZER風 */
+  color: #0e0e0e;
+  text-shadow: 1px 1px 1px #00ee00, -1px 1px 1px #00ee00, 1px -1px 1px #00ee00,
+    -1px -1px 1px #00ee00, 1px 0px 1px #00ee00, 0px 1px 1px #00ee00,
+    -1px 0px 1px #00ee00, 0px -1px 1px #00ee00;
 }
 
 button {
-  cursor:pointer;
-  /* background-color: #ABE34E; */
+  cursor: pointer;
   color: white;
   font-size: 14px;
-  /* max-width: 150px; */
   margin: 10px auto;
-  /* color: #ABE34E; */
-  /* background-color: #141414; */
-
-  /* RAZER風 */
-  background-color: #0E0E0E;
-  color: #00FB00;
+  /* R○ZER風 */
+  background-color: #0e0e0e;
+  color: #00fb00;
 }
 
 button:hover {
-  /* background-color: #638E2A; */
-  /* color: #ABE34E; */
-  /* border: solid; */
   border: 2px solid;
-  /* border-radius: 8px; */
-  /* border-color: #8CC63F; */
-  /* RAZER風 */
-  /* color: #00FB00; */
-  border-color: #00FB00;
+  border-color: #00fb00;
 }
 
 button:focus {
-  caret-color: #00FB00;
-  border: 2px solid #00FB00;
+  caret-color: #00fb00;
+  border: 2px solid #00fb00;
   outline: 0;
 }
 
 /* エントランスページ */
 #input_name {
-  width:150px;
-  height:50px;
+  width: 150px;
+  height: 50px;
 }
 
 input[type="text"] {
@@ -79,12 +48,12 @@ input[type="text"] {
 }
 
 input[type="text"]:focus {
-  caret-color: #00FB00;
-  border: 1px solid #00FB00;
+  caret-color: #00fb00;
+  border: 1px solid #00fb00;
   outline: 0;
 }
 
-.room_button button{
+.room_button button {
   width: 450px;
   /* 文字サイズを1.4emに指定 */
   font-size: 1.4em;
@@ -95,21 +64,29 @@ input[type="text"]:focus {
   padding: 10px 30px;
 }
 
-.room_button{
+.room_button {
   position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, -50%) 
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 }
 
 .in_use {
   border: solid 1px;
   /* color: #5c5b5b; */
   color: rgb(177, 177, 175);
-  border-image: linear-gradient(to right bottom,
-  #A90A0F, #B5890F, #BCA603, #27A528, #03A3C7, #7F3ABB, #D142B8)
-  1 / 1 / 0;
+  border-image: linear-gradient(
+      to right bottom,
+      #a90a0f,
+      #b5890f,
+      #bca603,
+      #27a528,
+      #03a3c7,
+      #7f3abb,
+      #d142b8
+    )
+    1 / 1 / 0;
 }
 
 /* roomページ */
@@ -125,48 +102,32 @@ input[type="text"]:focus {
 }
 
 #leave {
-float: right;
+  float: right;
 }
 
-.select_bord{
+.select_bord {
   display: inline-block;
-  /* width: 1000px; */
-  /* background: rgba(212, 255, 0, 0.571); */
-  /* border: solid; */
-  /* border-color: #CFCFD2; */
-  /* border-color: #ABE34E; */
-
 }
 
 .result {
-  /* color: black;
-  background-color: #ABE34E; */
-  /* color: #ABE34E; */
-  /* background-color: black; */
-  /* RAZER風 */
-  color: #00FB00;
-  border-color: #00FB00;
+  /* R○ZER風 */
+  color: #00fb00;
+  border-color: #00fb00;
 }
 
 .card_name {
-  /* color: #ABE34E; */
   color: white;
   font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-.result_bord{
+.result_bord {
   display: inline-block;
   border: solid;
-  /* border-color: #CFCFD2; */
   border: 0.1px solid;
   border-radius: 8px;
-  /* border-color: #ABE34E; */
-  /* width: 1000px; */
-  /* height: 500px; */
-  /* background: rgb(0, 251, 255); */
-  /* RAZER風 */
-  color: #00FB00;
-  background-color: #0E0E0E;
+  /* R○ZER風 */
+  color: #00fb00;
+  background-color: #0e0e0e;
   /* border-color: ; */
 }
 
@@ -202,7 +163,6 @@ float: right;
   /* フレームの中の要素を中央揃えに */
   align-items: center;
   /* align-items: flex-end; */
-  /* flexなんちゃらを使えるように */
   display: flex;
   /* フレームの中の要素を縦並びに */
   flex-direction: column;
@@ -210,5 +170,4 @@ float: right;
 
 .select {
   margin: 5px;
-  /* padding: 5px; */
 }

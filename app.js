@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 const io = require('socket.io')(http);
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 7000;
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/myDB";
 
@@ -50,21 +50,6 @@ io.on('connection',function(socket){
         } finally {
             if (client) client.close();
         }
-    });
-    
-    // ----------------------------------------------------------------------
-    // DB書き込みテストボタン用
-    // ----------------------------------------------------------------------
-    socket.on("db_test", function(data) {
-        MongoClient.connect(url, connectOption, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db(pokerdb);
-            var obj = { name: 'test', time: new Date() };
-            dbo.collection('roomA').insertOne(obj , function(err, res) {
-              if (err) throw err;
-              db.close();
-            });
-        });
     });
 
     // ----------------------------------------------------------------------
@@ -184,6 +169,7 @@ io.on('connection',function(socket){
         });
         io.to(room).emit('reset', 'reset');
     });
+
     // ----------------------------------------------------------------------
     // 部屋退出ボタンを押されたとき
     // ----------------------------------------------------------------------
@@ -194,9 +180,6 @@ io.on('connection',function(socket){
             if (err) throw err;
             var dbo = db.db(pokerdb);
             var where = {name: name};
-            // ----------------------------------------------------------------------
-            // DELETE
-            // ----------------------------------------------------------------------
             dbo.collection(room).deleteMany(where, function(err, result) {
               if (err) throw err;
               db.close();

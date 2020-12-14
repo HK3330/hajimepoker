@@ -31,67 +31,8 @@
   <div>
     <button id='room5'>ROOM 5</button>
   </div>
-  <!-- <div>
-    <button id='test'>test</button>
-  </div> -->
 </div>
 </body>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<!-- <script type="text/javascript" src="/javascripts/script.js"></script> -->
 <script type="text/javascript" src="/javascripts/entrance_script.js"></script>
-<!-- <script>
-var socketio = io();
-// 部屋に入る
-document.getElementById("roomA").onclick = function() {
-  var selectRoom = 'roomA';//ここで部屋名を決められる
-  // 名前取得
-  var user_name = document.getElementById("input_name").value;
-  window.sessionStorage.setItem('name',user_name);
-  window.sessionStorage.setItem('room',selectRoom);
-  // サーバに送信
-  // socketio.emit('from_client', { room: selectRoom, name: user_name });
-  console.log("ルーム情報を配信: " + selectRoom);
-  // ページ移動
-  window.location.href = '/room/';
-}
-
-document.getElementById("roomB").onclick = function() {
-  var selectRoom = 'roomB';//ここで部屋名を決められる
-  // 名前取得
-  var user_name = document.getElementById("input_name").value;
-  window.sessionStorage.setItem('name',user_name);
-  window.sessionStorage.setItem('room',selectRoom);
-  // サーバに送信
-  // socketio.emit('from_client', { room: selectRoom, name: user_name });
-  console.log("ルーム情報を配信: " + selectRoom);
-  // ページ移動
-  window.location.href = '/room/';
-}
-// ルームに参加
-socketio.on('joinResult', function(result) {
-    console.log("ルームへ入室", result.room)
-    // $("#room").text("接続しているルーム: " + result.room);
-});
-
-// 特定のルームにメッセージを送る
-document.getElementById("room2").onclick = function() {
-  // socketio.to('testroom').emit('receiveMessage', { name: name, message: message });
-  var name = '小松'
-  var message = 'testroomに届け'
-  console.log('button2')
-  // socketio.emit('from_client_message', name, message);
-  socketio.emit('from_client_message', name);
-}
-
-// メッセージ受信
-// サーバから来たメッセージの受信
-socketio.on('from_server', function(data) {
-    // clientChatMessage(chatApp, data.name, data.message);
-    console.log(data.name, data.message)
-});
-socketio.on('receiveMessage', function(data) {
-        // updateChatMessage(chatApp, data.name, data.message);
-        console.log(data + "room1で受け取ったなり")
-});
-</script> -->
 </html>

@@ -59,7 +59,6 @@ io.on('connection',function(socket){
         var name = data.name;
         // ユーザーをルームに参加させる
         socket.join(room);
-        //ここからasyncの書き方
         let client;
         try {
             client = await MongoClient.connect(url, connectOption);

@@ -27,7 +27,6 @@ app.use("/", require("./routes/index.js"));
 var rooms = ['roomUsakapi', 'room1', 'room2', 'room3', 'room4', 'room5'];
 
 io.on('connection',function(socket){
-    console.log('connection')
     // ----------------------------------------------------------------------
     // entranceにアクセス時、使用中の部屋を教える
     // ----------------------------------------------------------------------

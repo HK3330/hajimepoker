@@ -27,7 +27,6 @@ app.use("/", require("./routes/index.js"));
 var rooms = ['roomUsakapi', 'room1', 'room2', 'room3', 'room4', 'room5'];
 
 io.on('connection',function(socket){
-    console.log('connection')
     // ----------------------------------------------------------------------
     // entranceにアクセス時、使用中の部屋を教える
     // ----------------------------------------------------------------------
@@ -51,21 +50,6 @@ io.on('connection',function(socket){
             if (client) client.close();
         }
     });
-    
-    // ----------------------------------------------------------------------
-    // DB書き込みテストボタン用
-    // ----------------------------------------------------------------------
-    socket.on("db_test", function(data) {
-        MongoClient.connect(url, connectOption, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db(pokerdb);
-            var obj = { name: 'test', time: new Date() };
-            dbo.collection('roomA').insertOne(obj , function(err, res) {
-              if (err) throw err;
-              db.close();
-            });
-        });
-    });
 
     // ----------------------------------------------------------------------
     // 部屋入室時
@@ -73,9 +57,9 @@ io.on('connection',function(socket){
     socket.on("from_client", async function(data) {
         var room = data.room;
         var name = data.name;
+        console.log(name, room, new Date())
         // ユーザーをルームに参加させる
         socket.join(room);
-        //ここからasyncの書き方
         let client;
         try {
             client = await MongoClient.connect(url, connectOption);
@@ -184,6 +168,7 @@ io.on('connection',function(socket){
         });
         io.to(room).emit('reset', 'reset');
     });
+
     // ----------------------------------------------------------------------
     // 部屋退出ボタンを押されたとき
     // ----------------------------------------------------------------------
@@ -194,9 +179,6 @@ io.on('connection',function(socket){
             if (err) throw err;
             var dbo = db.db(pokerdb);
             var where = {name: name};
-            // ----------------------------------------------------------------------
-            // DELETE
-            // ----------------------------------------------------------------------
             dbo.collection(room).deleteMany(where, function(err, result) {
               if (err) throw err;
               db.close();

@@ -8,6 +8,8 @@ body {
 
 #title {
   font-size: 40px;
+  /* 中央寄せ */
+  text-align: center;
 
   /* R○ZER風 */
   color: #0e0e0e;
@@ -170,4 +172,28 @@ input[type="text"]:focus {
 
 .select {
   margin: 5px;
+}
+
+/* メンバー数表示 */
+.member_num {
+  font-size: 25px;
+}
+
+.text_flash {
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    /* 明るく光るよう影を重ねる */
+    /* text-shadow: 0 0 10px #ffc, 0 0 20px #ffc, 0 0 30px #ff9, 0 0 40px #ff6,
+      0 0 70px #fc6, 0 0 80px #f99, 0 0 100px #ff96, 0 0 150px #ff96; */
+  }
+  50% {
+    /* 淡く光るよう影を重ねる */
+    /* text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ffc, 0 0 40px #ff9; */
+    text-shadow: 0 0 10px #00fb00, 0 0 20px #00fb00, 0 0 30px #00fb00,
+      0 0 40px #00fb00;
+  }
 }

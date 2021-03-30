@@ -57,6 +57,7 @@ io.on('connection',function(socket){
     socket.on("from_client", async function(data) {
         var room = data.room;
         var name = data.name;
+        console.log(name, room, new Date())
         // ユーザーをルームに参加させる
         socket.join(room);
         let client;

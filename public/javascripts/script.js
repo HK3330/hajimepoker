@@ -164,12 +164,16 @@ if (window.performance) {
 }
 
 function member_num(voted, all) {
+        $(".member_num").remove();
         // メンバー数を表示
         //// 人数要素を作成
         var member_num_p = document.createElement('p');
-        member_num_p.className = 'member_num';
+        if (voted == all ){
+            member_num_p.className = 'member_num text_flash'
+        }else{
+            member_num_p.className = 'member_num'
+        }
         member_num_p.innerHTML = voted + '/' + all;
-        $(".member_num").remove();
-        $('.menber').prepend(member_num_p);
+        $('.member').prepend(member_num_p);
         // $('#member').append(member_num_p);
 }

@@ -175,8 +175,16 @@ input[type="text"]:focus {
 }
 
 /* メンバー数表示 */
-.member_num {
+.member {
   font-size: 25px;
+  overflow: hidden;
+}
+
+.box {
+  float: left;
+}
+.average_num_area {
+  margin: 0px 20px 0px 20px;
 }
 
 .text_flash {

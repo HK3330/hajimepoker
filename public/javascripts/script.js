@@ -8,6 +8,8 @@ var card_num = '';
 // 参加人数
 var all_member = 0;
 var voted_member = 0;
+// 平均ポイント
+var average_num = 0;
 
 // 名前取得
 var room = window.sessionStorage.getItem(['room']);
@@ -68,6 +70,8 @@ socketio.on('reset',function(){
     $(".select").prop("disabled", false);
     // 自分の選んだ番号を削除
     $(".select_num").remove();
+    // 平均を削除
+    $(".average_num").remove();
     voted_member = 0;
     result_user = [];
     result_number = [];
@@ -120,6 +124,8 @@ function selectCardLineUp(result_user, number_of_people) {
 function openCardLineUp(result_user, result_number) {
     // 配下をすべて削除
     $('.result_bord').empty();
+    // 平均
+    var average_num_arr = [];
 
     if (result_number[0] != ''){
     
@@ -142,8 +148,24 @@ function openCardLineUp(result_user, result_number) {
     
             // result_bordに追加
             panel.appendChild(frame_div);
+
+            // 平均を出すためにint化する
+            average_num_arr.push(parseFloat(result_number[i]));
         }
     }
+    // 平均を出す。
+    // タイミングはOpenボタンを押したとき
+    // カード情報はresult_numberの配列
+    // 表示する場所は　div class memberのところ
+    if (isNaN(Math.max(...average_num_arr))) {
+        average_num = 'Average: 🤔'
+    }else{
+        var average = function(arr, fn) {
+            return sum(arr, fn)/arr.length;
+        };
+        average_num = 'Average: ' + String(average(average_num_arr));
+    }
+    return_average_num(average_num);
 }
 
 // 画面リロード後はセッションのカードを再表示
@@ -174,6 +196,23 @@ function member_num(voted, all) {
             member_num_p.className = 'member_num'
         }
         member_num_p.innerHTML = voted + '/' + all;
-        $('.member').prepend(member_num_p);
+        $('.member_num_area').prepend(member_num_p);
         // $('#member').append(member_num_p);
 }
+
+function return_average_num(average_num) {
+    $(".average_num").remove();
+    // メンバー数を表示
+    //// 人数要素を作成
+    var member_num_p = document.createElement('p');
+    member_num_p.className = 'average_num'
+    member_num_p.innerHTML = average_num;
+    $('.average_num_area').prepend(member_num_p);
+    // $('#member').append(member_num_p);
+}
+
+var sum  = function(arr) {
+    return arr.reduce(function(prev, current, i, arr) {
+        return prev+current;
+    });
+};

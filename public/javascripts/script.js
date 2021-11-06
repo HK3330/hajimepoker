@@ -161,7 +161,7 @@ function openCardLineUp(result_user, result_number) {
         average_num = 'Average: 🤔'
     }else{
         var average = function(arr, fn) {
-            return sum(arr, fn)/arr.length;
+            return (sum(arr, fn)/arr.length).toFixed(1);
         };
         average_num = 'Average: ' + String(average(average_num_arr));
     }

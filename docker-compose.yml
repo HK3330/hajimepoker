@@ -1,15 +1,17 @@
 services:
-  nginx:
-    build: ./nginx
-    container_name: nginx
-    depends_on:
-      - server
-    ports:
-      - 8080:80
+  # nginx:
+  #   build: ./nginx
+  #   container_name: nginx
+  #   depends_on:
+  #     - server
+  #   ports:
+  #     - 8080:80
 
   server:
     build: ./server
     container_name: server
+    ports:
+      - "7000:7000" # ここを変更していく
     depends_on:
       - mongo
 

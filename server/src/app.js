@@ -19,8 +19,9 @@ var pokerdb = 'testdb'
 
 // テンプレートエンジンの指定
 app.set("view engine", "ejs");
+app.set('views', __dirname + '/views'); // ここを追加
 // staticメソッドを利用し、指定ディレクトリ以下の静的ファイルを読み込む
-app.use(express.static(__dirname + "./public"));
+app.use(express.static(__dirname + "/public"));
 // routeの設定
 app.use("/", require("./routes/index.js"));
 

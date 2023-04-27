@@ -10,10 +10,14 @@ services:
   server:
     build: ./server
     container_name: server
+    volumes:
+      - ./server/src:/usr/app/src
     ports:
       - "7000:7000" # ここを変更していく
     depends_on:
       - mongo
+    tty: true
+    stdin_open: true
 
   mongo:
     image: mongo

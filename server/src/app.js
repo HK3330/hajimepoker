@@ -4,7 +4,9 @@ var http = require('http').Server(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT || 7000;
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/myDB";
+//var url = "mongodb://localhost:27017/myDB";
+// const url = "mongodb://mongo:27017/myDB";
+const url = "mongodb://admin:admin@mongo:27017/testdb";
 
 /**
  * 追加オプション
@@ -34,7 +36,14 @@ io.on('connection',function(socket){
     socket.on('entrance', async function(data) {
         let client;
         try {
-            client = await MongoClient.connect(url, connectOption);
+            //client = await MongoClient.connect(url, connectOption);
+            try {
+                client = await MongoClient.connect(url, connectOption);
+                console.log('Succesfully connected to mongo');
+            } catch (e) {
+                console.error(e);
+                console.log("つながっていません");
+            }
             const db = client.db(pokerdb);
             var vacant_room_arr = []
             for await (room of rooms){

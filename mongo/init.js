@@ -1,10 +1,10 @@
 db.createUser({
-  user: 'echizen',
-  pwd: 'password',
+  user: 'admin',
+  pwd: 'admin',
   roles: [
     {
       role: 'readWrite',
-      db: 'nginx-node-mongo-docker-example',
+      db: 'testdb',
     },
   ],
 })

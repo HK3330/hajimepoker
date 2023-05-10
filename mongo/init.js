@@ -12,8 +12,6 @@ db.createUser({
 // pockerdbデータベースを選択
 db = db.getSiblingDB('pockerdb');
 
-
-
 // room1からroom6までの各コレクションを作成し、TTLインデックスを設定
 for (let i = 1; i <= 6; i++) {
   const collectionName = 'room' + i;

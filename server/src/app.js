@@ -26,7 +26,7 @@ app.use(express.static(__dirname + "/public"));
 app.use("/", require("./routes/index.js"));
 
 let rooms = [];
-for (let i=1; i<= 6; i++) {
+for (let i=1; i<=6; i++) {
     const roomName = 'room' + i;
     rooms.push(roomName);
 }

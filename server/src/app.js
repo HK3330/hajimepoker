@@ -4,9 +4,7 @@ var http = require('http').Server(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT || 7000;
 var MongoClient = require('mongodb').MongoClient;
-//var url = "mongodb://localhost:27017/myDB";
-// const url = "mongodb://mongo:27017/myDB";
-const url = "mongodb://admin:admin@mongo:27017/testdb";
+const url = "mongodb://admin:admin@mongo:27017/pockerdb?authSource=admin";
 
 /**
  * 追加オプション
@@ -17,7 +15,7 @@ const connectOption = {
     useUnifiedTopology: true,
 }
 
-var pokerdb = 'testdb'
+var pokerdb = 'pockerdb'
 
 // テンプレートエンジンの指定
 app.set("view engine", "ejs");
@@ -27,7 +25,12 @@ app.use(express.static(__dirname + "/public"));
 // routeの設定
 app.use("/", require("./routes/index.js"));
 
-var rooms = ['roomUsakapi', 'room1', 'room2', 'room3', 'room4', 'room5'];
+let rooms = [];
+for (let i=1; i<= 6; i++) {
+    const roomName = 'room' + i;
+    rooms.push(roomName);
+}
+console.log(rooms);
 
 io.on('connection',function(socket){
     // ----------------------------------------------------------------------

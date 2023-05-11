@@ -1,9 +1,9 @@
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const PORT = process.env.PORT || 7000;
-var MongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://admin:admin@mongo:27017/pockerdb?authSource=admin";
 
 /**
@@ -15,7 +15,7 @@ const connectOption = {
     useUnifiedTopology: true,
 }
 
-var pokerdb = 'pockerdb'
+const pokerdb = 'pockerdb'
 
 // テンプレートエンジンの指定
 app.set("view engine", "ejs");
@@ -68,8 +68,8 @@ io.on('connection',function(socket){
     // 部屋入室時
     // ----------------------------------------------------------------------
     socket.on("from_client", async function(data) {
-        var room = data.room;
-        var name = data.name;
+        const room = data.room;
+        const name = data.name;
         console.log(name, room, new Date())
         // ユーザーをルームに参加させる
         socket.join(room);
@@ -84,8 +84,8 @@ io.on('connection',function(socket){
                 await collection.insertOne({ name: name, choice: "", time: new Date() });
             }
             const result = await collection.find({}).toArray();
-            var result_number_arr=[]
-            var result_user_arr=[]
+            const result_number_arr=[]
+            const result_user_arr=[]
             for (let i=0;i < result.length; i++){
                 if (result[i]["choice"] != "") {
                     result_number_arr.push(result[i]["choice"]);
@@ -107,11 +107,11 @@ io.on('connection',function(socket){
     // カードボタンを押されたとき
     // ----------------------------------------------------------------------
     socket.on('result_card_list', async function(result_arr){
-        var card_num = result_arr[0];
-        var name = result_arr[1];
-        var room = result_arr[2];
-        var result_number_arr = [];
-        var result_user_arr = [];
+        const card_num = result_arr[0];
+        const name = result_arr[1];
+        const room = result_arr[2];
+        const result_number_arr = [];
+        const result_user_arr = [];
 
         let client;
         try {
@@ -141,10 +141,10 @@ io.on('connection',function(socket){
     // ----------------------------------------------------------------------
     socket.on('open',function(room){
         MongoClient.connect(url, connectOption, function(err, db) {
-            var choice_arr = [];
-            var name_arr = [];
+            const choice_arr = [];
+            const name_arr = [];
             if (err) throw err;
-            var dbo = db.db(pokerdb);
+            const dbo = db.db(pokerdb);
             // ----------------------------------------------------------------------
             // SELECT
             // ----------------------------------------------------------------------
@@ -168,9 +168,9 @@ io.on('connection',function(socket){
     socket.on('reset',function(room){
         MongoClient.connect(url, connectOption, function(err, db) {
             if (err) throw err;
-            var dbo = db.db(pokerdb);
-            var where = {};
-            var set = {$set: {choice: ''}};
+            const dbo = db.db(pokerdb);
+            const where = {};
+            const set = {$set: {choice: ''}};
             // ----------------------------------------------------------------------
             // UPDATE
             // ----------------------------------------------------------------------
@@ -186,12 +186,12 @@ io.on('connection',function(socket){
     // 部屋退出ボタンを押されたとき
     // ----------------------------------------------------------------------
     socket.on('leave',function(data){
-        var room = data[0];
-        var name = data[1];
+        const room = data[0];
+        const name = data[1];
         MongoClient.connect(url, connectOption, function(err, db) {
             if (err) throw err;
-            var dbo = db.db(pokerdb);
-            var where = {name: name};
+            const dbo = db.db(pokerdb);
+            const where = {name: name};
             dbo.collection(room).deleteMany(where, function(err, result) {
               if (err) throw err;
               db.close();

@@ -14,24 +14,11 @@
   Your Name ▶ 
   <input type="text" id="input_name" maxlength='15' placeholder='Please enter a name'>
 <!-- <div class="room_button"> -->
-  <div>
-    <button id='roomUsakapi'>ROOM Usakapi ONLY</button>
-  </div>
-  <div>
-    <button id='room1'>ROOM 1</button>
-  </div>
-  <div>
-    <button id='room2'>ROOM 2</button>
-  </div>
-  <div>
-    <button id='room3'>ROOM 3</button>
-  </div>
-  <div>
-    <button id='room4'>ROOM 4</button>
-  </div>
-  <div>
-    <button id='room5'>ROOM 5</button>
-  </div>
+  <% for (let i = 1; i <= 6; i++) { %>
+    <div>
+      <button id='room<%= i %>'>ROOM <%= i %></button>
+    </div>
+  <% } %>
 </div>
 </body>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>

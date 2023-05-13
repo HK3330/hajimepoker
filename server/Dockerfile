@@ -11,6 +11,6 @@ RUN npm install
 # アプリケーションコードをコンテナにコピー
 COPY . .
 
-# EXPOSE 7000
-# CMD [ "node", "src/app.js" ]
+EXPOSE 8080
+CMD [ "npm", "start" ]
 # # CMD ["ls"]

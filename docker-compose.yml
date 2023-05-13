@@ -1,11 +1,11 @@
 services:
-  # nginx:
-  #   build: ./nginx
-  #   container_name: nginx
-  #   depends_on:
-  #     - server
-  #   ports:
-  #     - 8080:80
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    depends_on:
+      - server
+    ports:
+      - 7000:7000
 
   server:
     build: ./server
@@ -13,7 +13,7 @@ services:
     volumes:
       - ./server/src:/usr/app/src
     ports:
-      - "7000:7000" # ここを変更していく
+      - "8080:8080" # ここを変更していく
     depends_on:
       - mongo
     tty: true

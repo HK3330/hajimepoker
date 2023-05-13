@@ -1,43 +1,46 @@
 <!-- <!DOCTYPE html> -->
 <html>
-  <head>
-    <title>Hajime Poker</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <header>
-      <h1 id='title'>Hajime Poker</h1>
-    </header>
-    <div class='info' id='info_panel'>
-      <button id='open'>Open</button>&emsp;&emsp;
-      <button id='reset'>Reset</button>
-      <button id='leave'>Leave the room</button>
-    </div>
-    <div class='member'>
+
+<head>
+  <title>Hajime Poker</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <header>
+    <h1 id='title'>Hajime Poker</h1>
+  </header>
+  <div class='info' id='info_panel'>
+    <button id='open'>Open</button>&emsp;&emsp;
+    <button id='reset'>Reset</button>
+    <button id='leave'>Leave the room</button>
+  </div>
+  <div class='member'>
     <div class='member_num_area box'></div>
     <div class='average_num_area box'></div>
-    </div>
-    <div class='result_bord' id='panel'></div>
-    <div class='border'></div>
-    <div class='select_bord' id='select_panel'>
-      <button class='card select' id='0'>0</button>
-      <button class='card select' id='0.5'>0.5</button>
-      <button class='card select' id='1'>1</button>
-      <button class='card select' id='2'>2</button>
-      <button class='card select' id='3'>3</button>
-      <button class='card select' id='5'>5</button>
-      <button class='card select' id='8'>8</button>
-      <button class='card select' id='13'>13</button>
-      <button class='card select' id='21'>21</button>
-      <button class='card select' id='34'>34</button>
-      <button class='card select' id='55'>55</button>
-      <button class='card select' id='89'>89</button>
-      <button class='card select' id='∞'>∞</button>
-      <button class='card select' id='?'>?</button>
-      <button class='card select' id='𓎩'>𓎩</button>
-    </div>
-  </body>
-  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="/javascripts/script.js"></script>
+  </div>
+  <div class='result_bord' id='panel'></div>
+  <div class='border'></div>
+  <div class='select_bord' id='select_panel'>
+    <button class='card select' id='0'>0</button>
+    <button class='card select' id='0.5'>0.5</button>
+    <button class='card select' id='1'>1</button>
+    <button class='card select' id='2'>2</button>
+    <button class='card select' id='3'>3</button>
+    <button class='card select' id='5'>5</button>
+    <button class='card select' id='8'>8</button>
+    <button class='card select' id='13'>13</button>
+    <button class='card select' id='21'>21</button>
+    <button class='card select' id='34'>34</button>
+    <button class='card select' id='55'>55</button>
+    <button class='card select' id='89'>89</button>
+    <button class='card select' id='∞'>∞</button>
+    <button class='card select' id='?'>?</button>
+    <button class='card select' id='𓎩'>𓎩</button>
+  </div>
+</body>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/javascripts/script.js"></script>
+
 </html>

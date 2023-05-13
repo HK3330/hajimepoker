@@ -1,11 +1,11 @@
-var router = require("express").Router();
+const router = require("express").Router();
 
 router.get("/", (req, res) => {
-    res.render("./entrance.ejs");
+  res.render("./entrance.ejs");
 });
 
 router.get("/room/", (req, res) => {
-    res.render("./index.ejs");
+  res.render("./index.ejs");
 });
 
 module.exports = router;

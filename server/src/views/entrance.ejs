@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="utf-8">
   <title>Hajime Poker</title>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <link rel='stylesheet' type="text/css" href='/stylesheets/style.css' />
 </head>
+
 <body>
   <header>
     <h1 id='title'>Hajime Poker uouo</h1>
   </header>
   <div class="room_button">
-  Your Name ▶ 
-  <input type="text" id="input_name" maxlength='15' placeholder='Please enter a name'>
-<!-- <div class="room_button"> -->
-  <% for (let i = 1; i <= 6; i++) { %>
-    <div>
-      <button id='room<%= i %>'>ROOM <%= i %></button>
-    </div>
-  <% } %>
-</div>
+    Your Name ▶
+    <input type="text" id="input_name" maxlength='15' placeholder='Please enter a name'>
+    <!-- <div class="room_button"> -->
+    <% for (let i=1; i <=6; i++) { %>
+      <div>
+        <button id='room<%= i %>'>ROOM <%= i %></button>
+      </div>
+      <% } %>
+  </div>
 </body>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="/javascripts/entrance_script.js"></script>
+
 </html>

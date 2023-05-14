@@ -1,0 +1,207 @@
+/* 共通 */
+body {
+  /* padding: 50px; */
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: black;
+  color: white;
+}
+
+#title {
+  font-size: 40px;
+  /* 中央寄せ */
+  text-align: center;
+
+  /* R○ZER風 */
+  color: #0e0e0e;
+  text-shadow: 1px 1px 1px #00ee00, -1px 1px 1px #00ee00, 1px -1px 1px #00ee00,
+    -1px -1px 1px #00ee00, 1px 0px 1px #00ee00, 0px 1px 1px #00ee00,
+    -1px 0px 1px #00ee00, 0px -1px 1px #00ee00;
+}
+
+button {
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  margin: 10px auto;
+  /* R○ZER風 */
+  background-color: #0e0e0e;
+  color: #00fb00;
+}
+
+button:hover {
+  border: 2px solid;
+  border-color: #00fb00;
+}
+
+button:focus {
+  caret-color: #00fb00;
+  border: 2px solid #00fb00;
+  outline: 0;
+}
+
+/* エントランスページ */
+#input_name {
+  width: 150px;
+  height: 50px;
+}
+
+input[type="text"] {
+  border: 1px solid #999;
+}
+
+input[type="text"]:focus {
+  caret-color: #00fb00;
+  border: 1px solid #00fb00;
+  outline: 0;
+}
+
+.room_button button {
+  width: 450px;
+  /* 文字サイズを1.4emに指定 */
+  font-size: 1.4em;
+  /* 文字の太さをboldに指定 */
+  font-weight: bold;
+  /* 縦方向に10px、
+    * 横方向に30pxの余白を指定 */
+  padding: 10px 30px;
+}
+
+.room_button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.in_use {
+  border: solid 1px;
+  /* color: #5c5b5b; */
+  color: rgb(177, 177, 175);
+  border-image: linear-gradient(
+      to right bottom,
+      #a90a0f,
+      #b5890f,
+      #bca603,
+      #27a528,
+      #03a3c7,
+      #7f3abb,
+      #d142b8
+    )
+    1 / 1 / 0;
+}
+
+/* roomページ */
+
+.info button {
+  /* 文字サイズを1.4emに指定 */
+  font-size: 1.4em;
+  /* 文字の太さをboldに指定 */
+  font-weight: bold;
+  /* 縦方向に10px、
+   * 横方向に30pxの余白を指定 */
+  padding: 10px 30px;
+}
+
+#leave {
+  float: right;
+}
+
+.select_bord {
+  display: inline-block;
+}
+
+.result {
+  /* R○ZER風 */
+  color: #00fb00;
+  border-color: #00fb00;
+}
+
+.card_name {
+  color: white;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.result_bord {
+  display: inline-block;
+  border: solid;
+  border: 0.1px solid;
+  border-radius: 8px;
+  /* R○ZER風 */
+  color: #00fb00;
+  background-color: #0e0e0e;
+  /* border-color: ; */
+}
+
+.border {
+  height: 30px;
+}
+
+.card {
+  width: 60px;
+  height: 80px;
+  line-height: 80px;
+  border: 1px solid silver;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  box-shadow: gray 2px 2px;
+  float: left;
+}
+
+/* 裏の状態 */
+.back {
+  background-color: black;
+  background-size: 60px 80px;
+  cursor: help;
+}
+
+.frame {
+  margin: 5px;
+  padding: 5px;
+  /* このフレーム自体を横並びに */
+  float: left;
+  /* フレームの中の要素を中央揃えに */
+  align-items: center;
+  /* align-items: flex-end; */
+  display: flex;
+  /* フレームの中の要素を縦並びに */
+  flex-direction: column;
+}
+
+.select {
+  margin: 5px;
+}
+
+/* メンバー数表示 */
+.member {
+  font-size: 25px;
+  overflow: hidden;
+}
+
+.box {
+  float: left;
+}
+.average_num_area {
+  margin: 0px 20px 0px 20px;
+}
+
+.text_flash {
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    /* 明るく光るよう影を重ねる */
+    /* text-shadow: 0 0 10px #ffc, 0 0 20px #ffc, 0 0 30px #ff9, 0 0 40px #ff6,
+      0 0 70px #fc6, 0 0 80px #f99, 0 0 100px #ff96, 0 0 150px #ff96; */
+  }
+  50% {
+    /* 淡く光るよう影を重ねる */
+    /* text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ffc, 0 0 40px #ff9; */
+    text-shadow: 0 0 10px #00fb00, 0 0 20px #00fb00, 0 0 30px #00fb00,
+      0 0 40px #00fb00;
+  }
+}

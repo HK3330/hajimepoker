@@ -16,18 +16,17 @@ http://localhost:7000/
 
 ### ディレクトリ
 
+アプリのメインとなる `server/src` 配下の構成です。
+
 ```
-.
-├── README.md
+src
 ├── app.js
-├── node_modules
-├── package-lock.json
-├── package.json
 ├── public
-│   └── javascripts
+│   ├── javascripts
 │   │   ├── entrance_script.js
 │   │   └── script.js
 │   └── stylesheets
+│       └── style.css
 ├── routes
 │   └── index.js
 └── views
@@ -65,11 +64,11 @@ http://localhost:7000/
 #### TTLの設定
 
 TTLの設定はコレクション（テーブル）ごとに設定が必要です。  
-例えば、room1で45分(2700秒)後にドキュメントを削除する設定する時。
+例えば、room1で120分(7200秒)後にドキュメントを削除する設定する時。
 
 ```
 # ターミナルで
 mongo
 > use testdb
-> db.room1.ensureIndex({time:1},{expireAfterSeconds:2700});
+> db.room1.ensureIndex({time:1},{expireAfterSeconds:7200});
 ```

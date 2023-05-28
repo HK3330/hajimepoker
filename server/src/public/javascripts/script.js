@@ -26,6 +26,8 @@ const updateInfo = (message) => {
   const content = document.createElement("p");
   content.textContent = message;
   room_info.appendChild(content);
+  // スクロールを最下部に移動
+  room_info.scrollTo(0, room_info.scrollHeight - room_info.clientHeight);
 }
 
 // 入室情報を受信

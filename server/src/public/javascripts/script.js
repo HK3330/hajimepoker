@@ -67,6 +67,8 @@ socketio.on("result_card_list", function (result_arr) {
 
 // オープンボタンを押したとき
 document.getElementById("open").onclick = function () {
+  // 1枚もカードが選択されていなかったら何もしない
+  if (panel.childElementCount == 0) return;
   socketio.emit("open", { room, name });
 };
 //　オープン情報受信

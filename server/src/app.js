@@ -97,14 +97,13 @@ io.on("connection", function (socket) {
         result_user_arr,
         result.length,
       ]);
+      // ユーザーにルーム入室を知らせる
+      io.to(room).emit('joinResult', { room, name });
     } catch (err) {
       console.log(err);
     } finally {
       if (client) client.close();
     }
-    // ユーザに新しいルームに入ったことを知らせる
-    // TODO 入った部屋先にメッセージを送る
-    // socket.emit('joinResult', { room: room });
   });
 
   // ----------------------------------------------------------------------
@@ -147,7 +146,8 @@ io.on("connection", function (socket) {
   // ----------------------------------------------------------------------
   // オープンボタンを押されたとき
   // ----------------------------------------------------------------------
-  socket.on("open", function (room) {
+  socket.on("open", function (data) {
+    const { room, name } = data;
     MongoClient.connect(url, connectOption, function (err, db) {
       const choice_arr = [];
       const name_arr = [];
@@ -168,7 +168,7 @@ io.on("connection", function (socket) {
             }
           }
           db.close();
-          io.to(room).emit("open", [name_arr, choice_arr]);
+          io.to(room).emit("open", [name_arr, choice_arr, name]);
         });
     });
   });
@@ -176,7 +176,8 @@ io.on("connection", function (socket) {
   // ----------------------------------------------------------------------
   // リセットボタンを押されたとき
   // ----------------------------------------------------------------------
-  socket.on("reset", function (room) {
+  socket.on("reset", function (data) {
+    const { room, name } = data;
     MongoClient.connect(url, connectOption, function (err, db) {
       if (err) throw err;
       const dbo = db.db(pokerdb);
@@ -190,7 +191,7 @@ io.on("connection", function (socket) {
         db.close();
       });
     });
-    io.to(room).emit("reset", "reset");
+    io.to(room).emit("reset", { room, name });
   });
 
   // ----------------------------------------------------------------------
@@ -208,6 +209,7 @@ io.on("connection", function (socket) {
         db.close();
       });
     });
+    io.to(room).emit("leaveResult", { room, name });
   });
 });
 

@@ -98,7 +98,7 @@ io.on("connection", function (socket) {
         result.length,
       ]);
       // ユーザーにルーム入室を知らせる
-      io.to(room).emit('joinResult', { room, name });
+      io.to(room).emit("joinResult", { room, name });
     } catch (err) {
       console.log(err);
     } finally {

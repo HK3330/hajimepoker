@@ -28,15 +28,15 @@ const updateInfo = (message) => {
   room_info.appendChild(content);
   // スクロールを最下部に移動
   room_info.scrollTo(0, room_info.scrollHeight - room_info.clientHeight);
-}
+};
 
 // 入室情報を受信
-socketio.on("joinResult", function(data) {
+socketio.on("joinResult", function (data) {
   updateInfo(`${data.name} さんが入室しました。`);
 });
 
 // 退出情報を受信
-socketio.on("leaveResult", function(data) {
+socketio.on("leaveResult", function (data) {
   updateInfo(`${data.name} さんが退出しました。`);
 });
 
@@ -77,7 +77,7 @@ socketio.on("open", function (result_arr) {
   const name = result_arr[2];
   $(".back").removeClass("back");
   // 情報を投稿
-  updateInfo(`${name} さんがカードをオープンしました。`)
+  updateInfo(`${name} さんがカードをオープンしました。`);
 });
 
 // リセットボタン

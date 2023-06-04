@@ -21,6 +21,25 @@ if (room == null || name == null) {
 // 部屋に入室させる
 socketio.emit("from_client", { room, name });
 
+// 部屋情報に追加する
+const updateInfo = (message) => {
+  const content = document.createElement("p");
+  content.textContent = message;
+  room_info.appendChild(content);
+  // スクロールを最下部に移動
+  room_info.scrollTo(0, room_info.scrollHeight - room_info.clientHeight);
+};
+
+// 入室情報を受信
+socketio.on("joinResult", function (data) {
+  updateInfo(`${data.name} さんが入室しました。`);
+});
+
+// 退出情報を受信
+socketio.on("leaveResult", function (data) {
+  updateInfo(`${data.name} さんが退出しました。`);
+});
+
 // カードボタン
 $(".card").on({
   click: function () {
@@ -48,24 +67,28 @@ socketio.on("result_card_list", function (result_arr) {
 
 // オープンボタンを押したとき
 document.getElementById("open").onclick = function () {
-  socketio.emit("open", room);
+  socketio.emit("open", { room, name });
 };
 //　オープン情報受信
 socketio.on("open", function (result_arr) {
   // ここで名前をキーに数字を入れる
   // オープン状態のカードを並べる
   openCardLineUp(result_arr[0], result_arr[1]);
+  const name = result_arr[2];
   $(".back").removeClass("back");
+  // 情報を投稿
+  updateInfo(`${name} さんがカードをオープンしました。`);
 });
 
 // リセットボタン
 document.getElementById("reset").onclick = function () {
   if (window.confirm("リセットしていいですか？")) {
-    socketio.emit("reset", room);
+    socketio.emit("reset", { room, name });
   }
 };
 // リセット情報受信
-socketio.on("reset", function () {
+socketio.on("reset", function (data) {
+  const { room, name } = data;
   $(".result_bord").empty();
   // ボタン有効化
   $(".select").prop("disabled", false);
@@ -77,6 +100,8 @@ socketio.on("reset", function () {
   result_user = [];
   result_number = [];
   member_num(voted_member, all_member);
+  // 情報を投稿
+  updateInfo(`${name} さんがリセットしました。`);
 });
 
 // 退出ボタン

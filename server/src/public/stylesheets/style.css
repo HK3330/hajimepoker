@@ -213,8 +213,14 @@ input[type="text"]:focus {
   color: #dcdcdc;
   max-height: 10em;
   overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .room_info p {
   line-height: 0.5;
+}
+
+.room_info::-webkit-scrollbar{
+  display: none;
 }
